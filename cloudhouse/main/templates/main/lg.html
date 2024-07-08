@@ -1,0 +1,32 @@
+{% extends 'main/layoutmain.html' %}
+{% load static %}
+
+{% block title %}
+Авторизация
+{% endblock %}
+
+{% block content %}
+{% if error_message %}
+    <div class="alert alert-danger" role="alert">
+        {{ error_message }}
+    </div>
+{% endif %}
+<div class="squaresupport">
+    <div class="supportinfo_log">
+    <h2>Вход</h2>
+    <form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+
+        <div class="info_logpass">
+        <label for="id_login">Логин:</label>
+        <input class="inp" type="text" name="username" id="id_login">
+      </div>
+      <div class="info_logpass">
+        <label for="id_password">Пароль:</label>
+        <input class="inp" type="password" name="password" id="id_password">
+      </div>
+      <button type="submit" class="entere">Войти</button>
+     </form>
+        </div>
+    </div>
+{% endblock %}

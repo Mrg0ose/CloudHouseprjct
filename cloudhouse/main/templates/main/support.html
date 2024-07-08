@@ -1,0 +1,28 @@
+{% extends 'main/layoutmain.html' %}
+{% load static %}
+
+{% block title %}
+Тех.Поддержка
+{% endblock %}
+
+{% block content %}
+<h2>Техническая поддержка</h2>
+<div class="container_support">
+<div class="squaresupport">
+        <div class="supportinfo">
+            <img src="{% static 'main/img/information.png' %}" alt="" class="suptel">
+            <div class="textinfo">Если есть вопрос или возникает какая-либо ошибка при подключении, то позвоните нам на номер 8-800-888-88.
+                <br> В любое время вам ответит
+                специалист технической поддержки.</div>
+        </div>
+        <button class="telefon" ><a class="ooo"  href="tel:+1234567890" >Позвонить</a></button>
+    </div>
+<div class="squaresupport">
+        <div class="supportinfo">
+            <img src="{% static 'main/img/telegram_sup.png' %}" alt="" class="supteleg">
+            <div class="textinfo">Мы есть в телеграм, перейдите в чат по кнопке ниже и наш бот ответит на часто задаваемые вопросы, либо, чтобы задать свой вопрос, введите его в чат и бот автоматический отправит его нам.  </div>
+        </div>
+        <button class="telefon"><a class="ooo" href="https://t.me/my_telegram_bot">Написать</a></button>
+    </div>
+    </div>
+{% endblock %}

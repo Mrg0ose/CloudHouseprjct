@@ -1,0 +1,406 @@
+{% extends 'main/layoutaccount.html' %}
+{% load static %}
+
+{% block title %}
+Личный кабинет
+{% endblock %}
+
+{% block content %}
+<div id="emsu" class="alert alert-success" role="alert" style="display: none;"></div>
+<div id="emsud" class="alert alert-danger" role="alert" style="display: none;"></div>
+<div class="pop_up" id="pop_up">
+	<div class="pop_up_container">
+		<div class="pop_up_body" id="pop_up_body">
+            <div class="close_pop">
+                <div class="pop_up_close" id="pop_up_close">&#10006</div>
+            </div>
+            <div class="content_pop">
+                <h4>Настройки</h4>
+                <div class="settings_device">
+                    <hr class="lineside">
+                    <div class="point_ystr">
+                        <div class="setting_name2">Интервал получения значений с датчиков</div>
+                   <div class="interval">
+                    <label>
+
+  <input type="checkbox" name="speed" value="1" id="speed-1" class="checkbox-round">
+  Каждые 5 секунд
+                    </label>
+                    <label>
+  <input type="checkbox" name="speed" value="2" id="speed-2" class="checkbox-round">
+  Каждые 10 секунд
+                    </label>
+                    <label>
+  <input type="checkbox" name="speed" value="3" id="speed-3" class="checkbox-round">
+  Каждые 15 секунд
+                    </label>
+</div>
+                    </div>
+<hr class="lineside">
+                    <div class="setting_name2">Настройка порога датчиков</div>
+                    <div class="porog">
+                        <div><input class="sensvar" id="sensorname" type="text" placeholder="Датчик"></div>
+
+                        <input class="minmax" id="min" type="number" placeholder="Min">
+<input type="number" class="minmax" id="max" placeholder="Max">
+                    </div>
+
+                </div>
+                 <div id="al" class="alert alert-danger" role="alert" style="display: none;"></div>
+                <div id="su" class="alert alert-success" role="alert" style="display: none;"></div>
+                <button id="accept" class="sub_set">Применить настройки</button>
+            </div>
+
+			</div>
+		</div>
+	</div>
+        <div id="sidebar">
+            <div id="sidebar-toggle"></div>
+            <ul class="tabs horizontal">
+    <li data-tab-name="Раздел 1" id="q" class="active">Избранные датчики</li>
+    <li data-tab-name="Раздел 2" id="w">Отчёт</li>
+    <li data-tab-name="Раздел 3" id="e">Информация</li>
+  </ul>
+            <hr class="lineside">
+            <div class="tab-content">
+    <div id="content-1" data-tab-content="Раздел 1" class="tab-pane active">
+      <div class="fav_win">
+    </div>
+    </div>
+    <div id="content-2" data-tab-content="Раздел 2" class="tab-pane">
+        <div class="check">
+        <div class="toggle-container">
+  <input type="checkbox" id="energyrep" class="toggle-input">
+  <label for="energyrep" class="toggle-label"></label>
+</div>
+            <p class="name_check"> Датчик энергопотребления</p>
+        </div>
+
+        <div class="check">
+        <div class="toggle-container">
+  <input type="checkbox" id="temprep" class="toggle-input">
+  <label for="temprep" class="toggle-label"></label>
+</div>
+            <p class="name_check"> Датчик температуры</p>
+        </div>
+
+        <div class="check">
+        <div class="toggle-container">
+  <input type="checkbox" id="voicerep" class="toggle-input">
+  <label for="voicerep" class="toggle-label"></label>
+</div>
+            <p class="name_check"> Датчик звука</p>
+        </div>
+        <hr class="lineside">
+        <h6>Выберите интервал отчёта</h6>
+<label class="lbl" for="from">Начальная дата:</label>
+<input class="cln" type="date" name="start_date" id="from">
+<label class="lbl" for="to">Конечная дата:</label>
+<input class="cln"  type="date" name="end_date" id="to">
+
+
+
+      <button id="report" class="report">Сформировать отчёт</button>
+        <button id="reportall"  class="report">Сформировать отчёт для всех датчиков</button>
+        <div class="mess">
+        <div id="emsur" class="alert alert-success" role="alert" style="display: none;"></div>
+<div id="emsudr" class="alert alert-danger" role="alert" style="display: none;"></div>
+            </div>
+    </div>
+    <div id="content-3" data-tab-content="Раздел 3" class="tab-pane">
+        <div class="user_information">
+            <div class="person">
+                <h4>Владелец:</h4>
+                <h6 id="hoz"></h6>
+            <h4>Адрес:</h4>
+                <h6 id="adrhoz"></h6>
+            </div>
+            <hr class="linemain">
+            <div class="contacts_person">
+                <h4>Контактные данные</h4>
+                <h6 id="mobb"></h6>
+            <h6 id="emm"></h6>
+            </div>
+
+        </div>
+    </div>
+  </div>
+</div>
+        <div id="content">
+            <div class="container_device" id=device>
+<div class="squaredevice" >
+    <div class="wrp">
+    <div class="status"></div>
+        <a id=open_pop_up class="set_btn"><img src="{% static 'main/img/settings.png' %}" class="set_btn1"></a>
+        </div>
+    <div>
+    <hr class="linemain">
+    <img src="{% static 'main/img/device.png' %}" data-device-id="{{ device_id }}" class="device" alt="">
+        <div class="deviceinfo">
+            <div class="textinfo1">Считывающее устройство</div>
+            <div class="textinfo" id="namee"></div>
+            <div class="textinfo" id="desc"></div>
+            <div class="textinfo" id="ipp"></div>
+        </div>
+        <button id="off-button" class="device_control">Отключить</button>
+        <button id="on-button" class="device_control">Включить</button>
+        </div>
+    </div>
+</div>
+<div class="container_not">
+<div class="squarenot">
+    <div class="wrp">
+    <div class="notname">Уведомления</div>
+        <a class="clear_not">Очистить всё</a>
+        </div>
+    <hr class="linemain">
+        <div class="notinfo">
+
+<div class="notification">
+            <div class="notification_window_warning">
+                <p ></p>
+                                    <button class="delete_button-not"><img src="{% static 'main/img/delete.png' %}" class="img_del_not" alt=""></button>
+            </div>
+            </div>
+
+            <div class="notification">
+            <div class="notification_window_except">
+                <p></p>
+                                    <button class="delete_button-not"><img src="{% static 'main/img/delete.png' %}" class="img_del_not" alt=""></button>
+            </div>
+            </div>
+
+            <div class="notification">
+            <div class="notification_window_stady">
+                <p></p>
+                                    <button class="delete_button-not"><img src="{% static 'main/img/delete.png' %}" class="img_del_not" alt=""></button>
+            </div>
+            </div>
+
+            <div class="notno">Нет уведомлений</div>
+
+        </div>
+    </div>
+</div>
+            <div class="container_sensors">
+    <div class="square_sensors">
+        <div class="senname">Датчики энергосбережения</div>
+    <hr class="linemain">
+        <table class="tabsen">
+  <thead>
+    <tr>
+        <th></th>
+      <th>Название датчика</th>
+      <th>Описание</th>
+      <th>IP</th>
+      <th>Дата значения</th>
+      <th>Время значения</th>
+      <th>Напряжение</th>
+        <th>Энергия</th>
+      <th>Тип значения</th>
+    </tr>
+  </thead>
+  <tbody class="enn">
+    <tr>
+        <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+        <td ></td>
+      <td></td>
+        <td></td>
+
+
+    </tr>
+  </tbody>
+</table>
+    </div>
+    </div>
+</div>
+
+<div class="container_sensors">
+    <div class="square_sensors">
+        <div class="senname">Датчики температуры</div>
+    <hr class="linemain">
+        <table class="tabsen">
+  <thead>
+    <tr>
+        <th></th>
+      <th>Название датчика</th>
+      <th>Описание</th>
+      <th>IP</th>
+      <th>Дата значения</th>
+      <th>Время значения</th>
+      <th>Значение</th>
+      <th>Тип значения</th>
+    </tr>
+  </thead>
+  <tbody class="tempp">
+    <tr>
+        <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+        <td></td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+    </div>
+<div class="container_sensors">
+    <div class="square_sensors">
+        <div class="senname">Датчики освещения</div>
+    <hr class="linemain">
+        <table class="tabsen">
+  <thead>
+    <tr>
+        <th></th>
+      <th>Название датчика</th>
+      <th>Описание</th>
+      <th>IP</th>
+      <th>Дата значения</th>
+      <th>Время значения</th>
+      <th>Значение</th>
+      <th>Тип значения</th>
+    </tr>
+  </thead>
+  <tbody class="svett">
+    <tr>
+        <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+        <td></td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+    </div>
+
+<div class="container_sensors">
+    <div class="square_sensors">
+        <div class="senname">Датчики звука</div>
+    <hr class="linemain">
+        <table class="tabsen">
+  <thead>
+    <tr>
+        <th></th>
+      <th>Название датчика</th>
+      <th>Описание</th>
+      <th>IP</th>
+      <th>Дата значения</th>
+      <th>Время значения</th>
+      <th>Значение</th>
+      <th>Тип значения</th>
+    </tr>
+  </thead>
+  <tbody class="voicee">
+    <tr>
+        <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+        <td></td>
+
+    </tr>
+
+  </tbody>
+</table>
+    </div>
+    </div>
+
+{% endblock %}
+{% block sidebarscript %}
+        <script src="{% static 'main/js/sidebar.js' %}"></script>
+{% endblock %}
+{% block popupscript %}
+        <script src="{% static 'main/js/popup.js' %}"></script>
+{% endblock %}
+
+{% block sidebar_slidescript %}
+<script src="{% static 'main/js/sidebar_slide.js' %}"></script>
+{% endblock %}
+
+{% block deviceonscript %}
+<script src="{% static 'main/js/device_on.js' %}"></script>
+{% endblock %}
+
+{% block deviceoffscript %}
+<script src="{% static 'main/js/device_off.js' %}"></script>
+{% endblock %}
+
+{% block settings_clicksscript %}
+<script src="{% static 'main/js/settings_clicks.js' %}"></script>
+{% endblock %}
+
+{% block settings_clicksscriptupd %}
+<script src="{% static 'main/js/upd_sens_maxmin.js' %}"></script>
+{% endblock %}
+
+{% block ajax %}
+<script src="{% static 'main/js/ajaxmain.js' %}"></script>
+{% endblock %}
+
+{% block ajaxnotification %}
+<script src="{% static 'main/js/ajaxnotification.js' %}"></script>
+{% endblock %}
+
+{% block delnotif %}
+<script src="{% static 'main/js/getnotifid.js' %}"></script>
+{% endblock %}
+
+{% block addfav %}
+<script src="{% static 'main/js/getfavoriteid.js' %}"></script>
+{% endblock %}
+
+{% block notifdellall %}
+<script src="{% static 'main/js/notifdelall.js' %}"></script>
+{% endblock %}
+
+{% block act %}
+<script src="{% static 'main/js/active_device.js' %}"></script>
+{% endblock %}
+
+{% block light%}
+<script src="{% static 'main/js/onofflight.js' %}"></script>
+{% endblock %}
+
+{% block sendnotif %}
+<script src="{% static 'main/js/send_notif.js' %}"></script>
+{% endblock %}
+
+{% block checks %}
+<script src="{% static 'main/js/checks.js' %}"></script>
+{% endblock %}
+
+{% block checkss %}
+<script src="{% static 'main/js/stand_checks.js' %}"></script>
+{% endblock %}
+
+{% block emailsend %}
+<script src="{% static 'main/js/email_send.js' %}"></script>
+{% endblock %}
+
+{% block reportall %}
+<script src="{% static 'main/js/report_all.js' %}"></script>
+{% endblock %}
+
+{% block rep %}
+<script src="{% static 'main/js/report_notall.js' %}"></script>
+{% endblock %}
+

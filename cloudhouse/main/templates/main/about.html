@@ -1,0 +1,66 @@
+{% extends 'main/layoutmain.html' %}
+{% load static %}
+
+{% block title %}
+О компании "CloudHouse"
+{% endblock %}
+
+{% block content %}
+<div class="features">
+    <div class="houselogo">
+        <img class="oimg" src="{% static 'main/img/logocloud.png' %}" alt="logo">
+    <span class="logo">CloudHouse</span>
+    </div>
+    <p>Мы - компания CloudHouse, специализирующаяся на создании умных домов, где технологии и инновации сливаются воедино, чтобы обеспечить максимальный комфорт и удобство для жильцов. Мы создаем интеллектуальные системы управления освещением, климатом, безопасностью, развлечениями и другими аспектами жизни в доме, чтобы наши клиенты могли наслаждаться жизнью, не беспокоясь о рутинных задачах.<br>  Наша команда состоит из опытных профессионалов, которые обладают экспертными знаниями в области электроники, программирования, инженерии и дизайна, что позволяет нам создавать инновационные и качественные решения для наших клиентов. Мы стремимся к тому, чтобы наши умные дома были не только функциональными, но и красивыми и эргономичными, чтобы соответствовать индивидуальным потребностям каждого клиента. С нами ваш дом станет не просто домом, а уютным и современным пространством, в котором вы будете чувствовать себя комфортно и безопасно.
+</p>
+    <div class="why">
+        <hr class="lineside">
+<h3>Почему мы</h3>
+
+<div class="image-row">
+  <div class="image-container">
+    <img class="oimg" src="{% static 'main/img/sertificate.png' %}" alt="logo">
+    <div class="caption">В команде только лучшие молодые специалисты </div>
+  </div>
+  <div class="image-container">
+    <img class="oimg" src="{% static 'main/img/sertificate.png' %}" alt="logo">
+    <div class="caption">Молодая компания, имеющая большой потенциал</div>
+  </div>
+  <div class="image-container">
+    <img class="oimg" src="{% static 'main/img/sertificate.png' %}" alt="logo">
+    <div class="caption">Широкий спектр услуг умного дома для вашего комфорта</div>
+  </div>
+</div>
+</div>
+    <div class="geo">
+        <hr class="lineside">
+<h3>Где мы находимся</h3>
+
+
+            <div class="map_container">
+    <div class="map_wrapper">
+        <div id="mapid"></div>
+    </div>
+    <div class="map_about">
+        <p>Наше главное здание находится по адресу:<br> Респ.Башкортостан, г.Уфа, ул.Кирова 65.</p>
+        <p>Контактные данные: 8-800-88-88</p>
+        <p>График работы: Круглосуточно.</p>
+        <p>Email: CloudHouseufa@gmail.com;</p>
+        <p>Мы в социальных сетях:</p>
+        <div class="socialki">
+            <img src="{% static 'main/img/vk.png' %}" class="s" alt="">
+            <img src="{% static 'main/img/telegram.png' %}" class="s" alt="">
+            <img src="{% static 'main/img/instagram.png' %}" class="s" alt="">
+        </div>
+    </div>
+</div>
+
+
+        </div>
+
+</div>
+{% endblock %}
+
+{% block mapscript %}
+<script src="{% static 'main/js/map.js' %}"></script>
+{% endblock %}

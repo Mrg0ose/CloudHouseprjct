@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Электронный чек №044</title>
+	<style type="text/css">
+		body {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #333;
+      background-color: #e3e3e3;
+    }
+
+    .container05{
+
+      width: 700px;
+      background-color: white;
+      box-sizing: border-box;
+      margin: 0 auto;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 10px;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      padding: 3px;
+      border: none;
+      vertical-align: middle;
+    }
+    th {
+
+    }
+    tfoot th {
+      text-align: right;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+
+    .line{
+     border: 1px solid #e4e4e4;
+    }
+
+    .col1{
+text-align: left;
+    }
+    .col2{
+      text-align: right;
+    }
+    .coli2{
+      font-size: 20px;
+      font-weight: bold;
+      text-align: right;
+    }
+    .coli1{
+      font-size: 20px;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    .PS{
+      color: #939393;
+    }
+	</style>
+</head>
+<body>
+  <div class="container05">
+  <div class="container">
+    <h1>Электронный чек №0044</h1>
+    <table>
+      <thead>
+        <tr>
+          <td class="col1">Приход</td>
+          <td class="col2">{{frm}}</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col1">Телефон или электронный адрес покупателя</td>
+          <td class="col2"><a href="mailto:{{em}}">{{em}}</a></td>
+        </tr>
+        <tr>
+          <td class="col1">Адрес электронной почты отправителя чека</td>
+          <td class="col2"><a href="mailto:housecloudufa@gmail.com">housecloudufa@gmail.com</a></td>
+        </tr>
+<tr>
+          <td class="col1">признак расчетов в сети Интернет</td>
+          <td class="col2">да</td>
+        </tr>
+        <tr>
+          <th colspan="2"> <hr class="line"></th>
+        </tr>
+        <tr>
+          <td class="col1">общая стоимость</td>
+          <td class="col2">500.00</td>
+        </tr>
+        <tr>
+          <td class="col1">срок расчета</td>
+          <td class="col2">ЗА МЕСЯЦ</td>
+        </tr>
+        <tr>
+          <td class="col1">признак предмета расчета</td>
+          <td class="col2">УСЛУГА</td>
+        </tr>
+        <tr>
+          <th colspan="2"> <hr class="line"></th>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td class="coli1">Итог</td>
+          <td class="coli2">500.00</td>
+          </tr>
+          <tr>
+          <td class="col1">НАЛИЧНЫМИ</td>
+          <td class="col2">0.00</td>
+          </tr>
+          <tr>
+          <td class="col1">БЕЗНАЛИЧНЫМИ</td>
+          <td class="col2">500.00</td>
+          </tr>
+          <tr>
+          <td class="col1">Итого без НДС</td>
+          <td class="col2">500.00</td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="footer">
+      <p>СПАСИБО ЗА ПОКУПКУ!</p>
+      <br><br><br><br>
+      <div class="PS">Вы получили данное письмо, так как Ваш адрес электронной почты сообщили при совершении покупки в "CloudHouse" на сумму 500.00 руб. или указали его при покупке в сети Интернет. Если Вы не указывали свои данные, просто проигнорируйте это письмо. Письмо сгенерировано автоматически. Пожалуйста, не отвечайте на него.</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Отчёт</title>
+    <style>
+    .table-wrapper {
+    border: 2px solid #c97a1c;
+    border-radius: 50%;
+    overflow: hidden;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #494747;
+    color: #fff;
+    font-size: 14px;
+}
+
+th {
+    background-color: #c97a1c;
+    padding: 8px;
+    font-weight: bold;
+    text-align: left;
+}
+
+tr {
+    border-bottom: 1px solid #c97a1c;
+}
+
+td {
+    padding: 8px;
+    text-align: left;
+}
+	body {
+  font-family: 'Roboto', sans-serif;
+	background:#2c2c2c;
+}
+
+h2 {
+color:#fff;
+}
+
+
+    .description {
+        color: #999;
+        font-size: 12px;
+    }
+
+    .header {
+        background-color: #c97a1c;
+        color: #fff;
+        font-size: 18px;
+        text-align: center;
+        padding: 20px;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+
+    .table-wrapper table {
+        border-radius: 10px;
+    }
+
+    .table-wrapper table tr:last-child {
+        border-bottom: none;
+    }
+</style>
+
+</head>
+<body>
+<h2>Отчет по показаниям датчиков за {{start}}г. - {{end}}г.</h2>
+{% if reportT %}
+<table>
+<caption><h3>Датчик температуры</h3></caption>
+    <thead>
+        <tr>
+            <th>Наименование датчика</th>
+	    <th>Местонахождение</th>
+            <th>Описание</th>
+            <th>Температура(°C)</th>
+            <th>Дата описания</th>
+            <th>Время</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for sensor in reportT %}
+        <tr>
+		<td>{{sensor.temp.sensor_name}}</td>
+            <td>{{sensor.temp.description}}</td>
+            <td>{% if sensor.type_sensor == 'ТемператураUp' %} Температура перешла максимальный порог {% else %} Температура перешла минимальный порог {% endif %}</td>
+            <td>{{sensor.int_param}}°C</td>
+            <td>{{sensor.date_param}}</td>
+            <td>{{sensor.time_param}}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if reportV %}
+<table>
+<caption><h3>Датчик звука</h3></caption>
+    <thead>
+        <tr>
+            <th>Наименование датчика</th>
+	    <th>Местонахождение</th>
+            <th>Описание</th>
+            <th>Звук(Db)</th>
+            <th>Дата описания</th>
+            <th>Время</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for sensor in reportV %}
+        <tr>
+		<td>{{sensor.voice.sensor_name}}</td>
+            <td>{{sensor.voice.description}}</td>
+            <td>{% if sensor.type_sensor == 'ЗвукUp' %} Громкость превышает максимальный порог {% else %} Громкость превышает минимальный порог {% endif %}</td>
+            <td>{{sensor.int_param}}Db</td>
+            <td>{{sensor.date_param}}</td>
+            <td>{{sensor.time_param}}</td>
+        </tr>
+{% endfor %}
+
+    </tbody>
+</table>
+{% endif %}
+
+{% if reportE %}
+<table>
+<caption><h3>Датчик электросбережения</h3></caption>
+    <thead>
+        <tr>
+            <th>Наименование датчика</th>
+	    <th>Местонахождение</th>
+            <th>Описание</th>
+            <th>Напряжение(V)</th>
+	    <th>Энергия(КлВт/ч)</th>
+            <th>Дата описания</th>
+            <th>Время</th>
+        </tr>
+    </thead>
+    <tbody>
+       {% for sensor in reportE %}
+        <tr>
+		<td>{{sensor.energy.sensor_name}}</td>
+            <td>{{sensor.energy.description}}</td>
+            <td>{% if sensor.type_sensor == 'ЭлектричествоUp' %} Зафиксирован скачок напряжения {% else %} Зафиксирована утечка напряжения {% endif %}</td>
+            <td>{{sensor.int_param}}V</td>
+            <td>{{sensor.float_param}}КлВт/ч</td>
+            <td>{{sensor.date_param}}</td>
+            <td>{{sensor.time_param}}</td>
+        </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endif %}
+</body>
+</html>

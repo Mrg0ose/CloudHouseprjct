@@ -1,0 +1,58 @@
+{% extends 'main/layoutmain.html' %}
+{% load static %}
+
+{% block sliderlink %}
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    {% endblock %}
+
+{% block title %}
+Главная страница
+{% endblock %}
+
+{% block content %}
+    <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="{% static 'main/img/slide1.jpg' %}"></div>
+      <div class="swiper-slide"><img src="{% static 'main/img/slide2.jpg' %}"></div>
+    </div>
+    <div class="swiper-pagination"></div>
+     <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+  </div>
+<hr class="lineside">
+        <h2>Услуги</h2>
+<div class="container_services">
+<div class="services_win">
+        <div class="services_info">
+            <img src="{% static 'main/img/zvyk_yslygi.png' %}" alt="" class="supteleg">
+            <div class="textinformation">Датчики уровня звука</div>
+
+        </div>
+    </div>
+<div class="services_win">
+        <div class="services_info">
+            <img src="{% static 'main/img/molnia_yslygi.png' %}" alt="" class="supteleg">
+            <div class="textinformation">Электросбережение</div>
+        </div>
+    </div>
+    <div class="services_win">
+        <div class="services_info">
+            <img src="{% static 'main/img/temperatyra_yslygi.png' %}" alt="" class="supteleg">
+            <div class="textinformation">Датчики температуры</div>
+        </div>
+    </div>
+    <div class="services_win">
+        <div class="services_info">
+            <img src="{% static 'main/img/svet_yslygi.png' %}" alt="" class="supteleg">
+            <div class="textinformation">Датчики освещения</div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block sliderscript %}
+        <script src="{% static 'main/js/slider.js' %}"></script>
+{% endblock %}

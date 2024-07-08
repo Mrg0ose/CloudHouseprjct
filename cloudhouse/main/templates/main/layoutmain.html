@@ -1,0 +1,73 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+<script src="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
+    <link rel="shortcut icon" type="image/png" href="{% static 'main/img/logocloud.png' %}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css" integrity="sha384-QYIZto+st3yW+o8+5OHfT6S482Zsvz2WfOzpFSXMF9zqeLcFV0/wlZpMtyFcZALm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+    {% block sliderlink %}
+    {% endblock %}
+
+</head>
+<body>
+<aside>
+    <div class="bar">
+    <a class="lib" href="{% url 'home' %}"><div class="house">
+        <img src="{% static 'main/img/logocloud.png' %}" alt="logo">
+    <span class="logo">CloudHouse</span>
+    </div></a>
+
+
+    <h3>Главное</h3>
+    <ul>
+        <a href="{% url 'cabinet' %}"><img src="{% static 'main/img/account.png' %}" class="panel_pic1" alt=""><li>Личный кабинет</li></a>
+    </ul>
+    <hr class="lineside">
+    <h3>Прочее</h3>
+    <ul>
+        <a href="{% url 'about' %}"><img src="{% static 'main/img/onas.png' %}" class="panel_pic1" alt=""><li>О нас</li></a>
+        <a href="{% url 'support' %}"><img src="{% static 'main/img/support.png' %}" class="panel_pic2" alt=""><li>Поддержка</li></a>
+    </ul>
+         <hr class="lineside">
+        <div class="soc_panel">
+            <div class="soc_panel_text">Мы в социальной сети</div>
+            <img src="{% static 'main/img/vk.png' %}" class="img_soc_panel" alt="">
+                <img src="{% static 'main/img/telegram.png' %}" class="img_soc_panel" alt="">
+                <img src="{% static 'main/img/instagram.png' %}" class="img_soc_panel" alt="">
+            <div class="soc_panel_info">
+
+                Контактные данные: 8-800-888-88.<br> CloudHouseufa@gmail.com <br>
+            </div>
+        </div>
+    <style>
+          a {
+          text-decoration: none;
+          }
+        </style>
+        </div>
+</aside>
+<div class="aside_2">
+    </div>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+{% block sliderscript %}
+    {% endblock %}
+
+{% block mapscript %}
+    {% endblock %}
+</body>
+</html>

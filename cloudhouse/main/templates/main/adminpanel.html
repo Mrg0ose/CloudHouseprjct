@@ -1,0 +1,806 @@
+{% extends 'main/adminlayout.html' %}
+{% load static %}
+    {% block title %} Административная панель CloudHouse{% endblock %}
+
+{% block content %}
+<div id="messsuc" class="alert alert-success" role="alert" style="display: none;"></div>
+<div id="messdang" class="alert alert-danger" role="alert" style="display: none;"></div>
+<div id="contractsTable">
+  <div class="win_table" id="win_table">
+<div class="container_search">
+<form method="get" action="{% url 'search_contracts' %}">
+  <input type="text" class="search" name="query" placeholder="Поиск по ФИО клиента или коду договора">
+  <button type="submit">Найти</button>
+</form>
+<ul>
+  <a href="{% url 'admin_panel' %}" class="text-buttonn">Сбросить фильтры</a>
+    </ul>
+  </div>
+
+<div class="ppp" style="overflow-y: auto; max-height: 275px;">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Код договора</th>
+      <th>Клиент</th>
+      <th>Дата оформления</th>
+      <th>Дата платежа</th>
+      <th>Сумма</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for contracts in contract %}
+    <tr data-id="{{ contracts.code_contract|safe }}">
+      <td><input type="checkbox" class="contract-checkbox"></td>
+      <td>{{ contracts.code_contract }}</td>
+      <td>{{ contracts.client }}</td>
+      <td>{{ contracts.contract_start }}</td>
+      <td>{{ contracts.contract_payment }}</td>
+      <td>{{ contracts.price }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+  </div>
+<form method="get" action="{% url 'search_contracts' %}">
+<div class="container">
+<p>ФИЛЬТР</p>
+  <hr class="lineside">
+    <div class="name_cont">
+    Дата оформления
+      </div>
+     <ul>
+        <input type="submit" name="filter" class="text-button" value="Сегодня" formaction="{% url 'search_contracts' %}#today" />
+        <input type="submit" name="filter" class="text-button" value="За этот год" formaction="{% url 'search_contracts' %}#year" />
+        <input type="submit" name="filter" class="text-button" value="За этот месяц" formaction="{% url 'search_contracts' %}#month" />
+        <input type="submit" name="filter" class="text-button" value="Последние 7дней" formaction="{% url 'search_contracts' %}#sevenday" />
+    </ul>
+  </div>
+</form>
+  <div class="btncontainercontracts">
+    <button class="create_contract">Заключить договор</button>
+    <button class="create_more_contract">Заключить еще один договор</button>
+    <button class="delete_contr">Архивировать договор</button>
+    <button class="load_contr">Сформировать договор</button>
+    </div>
+<hr class="lineside" id="line">
+    <h5 class="archive_text">Архив</h5>
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Код договора</th>
+      <th>Клиент</th>
+      <th>Дата оформления</th>
+      <th>Дата платежа</th>
+      <th>Сумма</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for archive in archives %}
+    <tr data-id="{{ archive.code_contract }}">
+    <td><input type="checkbox" class="contract-arch-checkbox"></td>
+        <td>{{ archive.code_contract }}</td>
+        <td>{{ archive.client }}</td>
+        <td>{{ archive.contract_start }}</td>
+      <td>{{ archive.contract_payment }}</td>
+      <td>{{ archive.price }}</td>
+  </tr>
+    {% endfor %}
+  </tbody>
+</table>
+    <div class="btncontainercontracts">
+    <button class="contr_arh">Восстановить контракт</button>
+    </div>
+    </div>
+
+  <div class="win_form_contractt" id="win_form_contractt">
+    <form>
+  <div class="form-group">
+        <label>Дата оформления: {{data}}</label>
+      </div>
+  <hr class="lineside">
+  <h3>Данные клиента</h3>
+  <div class="one_tr">
+  <div class="form-group">
+        <label for="contacts">Адрес оформления:</label>
+        <div id="contactss">
+        <input class="inp_form" type="text" id="addresss" placeholder="Пушкина,11/3,110*" name="address" >
+          </div>
+      </div>
+
+    </div>
+  <hr class="lineside">
+  <h3>Устройство</h3>
+  <div class="two_tr">
+      <div class="form-group">
+        <input class="inp_form" type="text" id="name_devv" placeholder="Название устройства*" name="name_dev" >
+      </div>
+  <div class="form-group">
+        <input class="inp_form" type="text" id="ip_adresss" placeholder="Адрес устройства*" name="ip" >
+      </div>
+    </div>
+      <div class="wrp">
+      <div id="dangcreatee" class="alert alert-danger" role="alert" style="display: none;"></div>
+        </div>
+  <div class="panel_btn_contract">
+  <button class="form_contract_akkk">Сформировать</button>
+    <button id="back_winn">Вернуться</button>
+    </div>
+</form>
+  </div>
+
+
+
+
+
+
+  <div class="win_form_contract" id="win_form_contract">
+    <form>
+  <div class="form-group">
+        <label>Дата оформления: {{data}}</label>
+      </div>
+  <hr class="lineside">
+  <h3>Данные клиента</h3>
+  <div class="one_tr">
+      <div class="form-group">
+        <label for="fio">ФИО:</label>
+        <div id="fio">
+        <input class="inp_form" type="text" id="last-name" placeholder="Фамилия*" name="last-name" >
+        <input class="inp_form" type="text" id="first-name" placeholder="Имя*" name="first-name" >
+        <input class="inp_form" type="text" id="middle-name" placeholder="Отчество(Необязательно)" name="middle-name">
+          </div>
+      </div>
+  <div class="form-group">
+        <label for="contacts">Контактные данные:</label>
+        <div id="contacts">
+        <input class="inp_form" type="text" id="phone" placeholder="89177777777*" name="phone" >
+        <input class="inp_form" type="text" id="address" placeholder="Пушкина,11/3,110*" name="address" >
+        <input class="inp_form" type="text" id="email" placeholder="example@gmail.com*" name="email" >
+          </div>
+      </div>
+    </div>
+  <hr class="lineside">
+  <h3>Аккаунт</h3>
+  <div class="two_tr">
+      <div class="form-group">
+        <input class="inp_form" type="text" id="login" placeholder="Логин*" name="login" >
+      </div>
+  <div class="form-group">
+        <input class="inp_form" type="text" id="password" placeholder="Пароль*" name="password" >
+      </div>
+    </div>
+  <hr class="lineside">
+  <h3>Устройство</h3>
+  <div class="two_tr">
+      <div class="form-group">
+        <input class="inp_form" type="text" id="name_dev" placeholder="Название устройства*" name="name_dev" >
+      </div>
+  <div class="form-group">
+        <input class="inp_form" type="text" id="ip_adress" placeholder="Адрес устройства*" name="ip" >
+      </div>
+    </div>
+      <div class="wrp">
+      <div id="dangcreate" class="alert alert-danger" role="alert" style="display: none;"></div>
+        </div>
+  <div class="panel_btn_contract">
+  <button class="form_contract_akk">Сформировать</button>
+    <button id="back_win">Вернуться</button>
+    </div>
+</form>
+  </div>
+  </div>
+
+
+<div id="clientsTable">
+<div class="container_search">
+<form method="get" action="{% url 'search_clients' %}">
+  <input type="text" class="search" name="query" placeholder="Поиск по ФИО клиента">
+  <button type="submit">Найти</button>
+</form>
+  <a href="{% url 'admin_panel' %}" class="text-buttonnn">Сбросить фильтры</a>
+  </div>
+
+<div style="overflow-y: auto; max-height: 275px;">
+<table class="table_alls">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Фамилия</th>
+      <th>Имя</th>
+      <th>Отчество</th>
+      <th>Логин</th>
+      <th>Пароль</th>
+      <th>Телефон</th>
+      <th>Почта</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for clients in client %}
+    <tr data-id="{{ clients.client_id }}">
+      <td><input type="checkbox" class="client-checkbox"></td>
+  <td>{{ clients.surname }}</td>
+      <td>{{ clients.name }}</td>
+      <td>{{ clients.patronymic }}</td>
+      <td>{{ clients.user_id }}</td>
+      <td>{{ clients.uncpass }}</td>
+      <td>{{ clients.mobile }}</td>
+      <td>{{ clients.email }}</td>
+</tr>
+    {% endfor %}
+  </tbody>
+</table>
+  </div>
+  <div class="btncontainer">
+    <button class="editbtncl">Изменить выбранного клиента</button>
+    <button class="savebtncl">Сохранить</button>
+    </div>
+</div>
+{% csrf_token %}
+
+<div id="tempTable">
+<div class="container_search">
+<form method="get" action="{% url 'search_temp' %}">
+  <input type="text" class="search" name="query" placeholder="Поиск по устройству и названию">
+  <button type="submit">Найти</button>
+</form>
+  <a href="{% url 'admin_panel' %}" class="text-buttonnn">Сбросить фильтры</a>
+  </div>
+
+<div style="overflow-y: auto; max-height: 275px;">
+<table class="table_alls">
+  <thead>
+    <tr>
+      <th><input type="checkbox" class="temp-allchecks"></th>
+      <th>Код устройства</th>
+      <th>Название датчика</th>
+      <th>Местоположение</th>
+      <th>ip адрес</th>
+      <th>Дата показания</th>
+      <th>Время показания</th>
+      <th>Показание</th>
+      <th>Порог мин.показания</th>
+      <th>Порог макс.показания</th>
+      <th>Избранное</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for t in temp %}
+    <tr data-id="{{ t.sensor_id }}">
+      <td><input type="checkbox" class="temp-checkbox"></td>
+      <td>{{ t.device }}</td>
+<td>{{ t.sensor_name }}</td>
+<td>{{ t.description }}</td>
+      <td>{{ t.ip }}</td>
+<td>{% if t.lastpar_date is None%} Нет данных {% else %}{{ t.lastpar_date }} {% endif %}</td>
+<td>{% if t.lastpar_time is None%} Нет данных {% else %}{{ t.lastpar_time }} {% endif %}</td>
+<td>{% if t.temperature_result is None%} Нет данных {% else %}{{ t.temperature_result }}°C {% endif %}</td>
+<td>{{ t.min_temperature }}°C</td>
+<td>{{ t.max_temperature }}°C</td>
+<td>{% if t.favorite == 1 %} да {% else %} нет {% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+  </div>
+  <div class="btncontainer">
+    <button class="addbtnt">Добавить датчик температуры</button>
+    <button class="deletebtnt">Удалить выбранные датчики</button>
+    <button class="editbtnt">Изменить выбранный датчик</button>
+    <button class="savebtnt">Сохранить</button>
+    </div>
+  <div class="addingt">
+  <table class="table_add">
+  <tbody>
+    <tr>
+      <td><select class="device-code-select-temp" name="deviceCode-temp">
+  {% for dev in device %}
+      <option value="{{ dev.device_id }}">{{ dev.device_name }}</option>
+    {% endfor %}
+  </select></td>
+      <td><input type="text" class="add-description-temp" placeholder="Наименование датчика"></td>
+      <td><input type="text" class="add-description-temp" placeholder="ip адрес"></td>
+<td><input type="text" class="add-description-temp" placeholder="Местоположение"></td>
+<td><input type="number" class="add-description-temp" placeholder="Порог мин.показания"></td>
+<td><input type="number" class="add-description-temp" placeholder="Порог макс.показания"></td>
+    </tr>
+  </tbody>
+</table>
+  <button class="saveaddbtnt">Добавить</button>
+  </div>
+</div>
+
+
+<div id="devicesTable">
+<div class="container_search">
+<form method="get" action="{% url 'search_devices' %}">
+  <input type="text" class="search" name="query" placeholder="Поиск по названию,адресу и статусу">
+  <button type="submit">Найти</button>
+</form>
+  <a href="{% url 'admin_panel' %}" class="text-buttonnn">Сбросить фильтры</a>
+  </div>
+
+<div style="overflow-y: auto; max-height: 275px;">
+<table class="table_alls">
+  <thead>
+    <tr>
+      <th>Название устройства</th>
+      <th>Договор</th>
+      <th>Адрес</th>
+      <th>Статус</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for dev in device %}
+    <tr>
+      <td>{{ dev.device_name }}</td>
+      <td>{{ dev.contract_code }}</td>
+      <td>{{ dev.ip }}</td>
+      <td>{{ dev.status }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+  </div>
+</div>
+
+
+<div id="energyTable">
+<div class="container_search">
+<form method="get" action="{% url 'search_energy' %}">
+  <input type="text" class="search" name="query" placeholder="Поиск по устройству и названию">
+  <button type="submit">Найти</button>
+</form>
+  <a href="{% url 'admin_panel' %}" class="text-buttonnn">Сбросить фильтры</a>
+  </div>
+<div style="overflow-y: auto; max-height: 275px;">
+<div style="overflow-x: auto; max-width: 100%;">
+<table class="table_alls">
+  <thead>
+    <tr>
+      <th><input type="checkbox" class="energy-allchecks"></th>
+      <th>Код устройства</th>
+      <th>Название датчика</th>
+      <th>Местоположение</th>
+      <th>ip адрес</th>
+      <th>Дата показания</th>
+      <th>Время показания</th>
+      <th>Напряжение</th>
+      <th>Энергия</th>
+      <th>Порог мин.напряжения</th>
+      <th>Порог макс.напряжения</th>
+      <th>Порог мин.энергии</th>
+      <th>Порог макс.энергии</th>
+      <th>Избранное</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for t in energy %}
+    <tr data-id="{{ t.sensor_id }}">
+      <td><input type="checkbox" class="energy-checkbox"></td>
+      <td>{{ t.device }}</td>
+      <td>{{ t.sensor_name }}</td>
+      <td>{{ t.description }}</td>
+      <td>{{ t.ip }}</td>
+      <td>{% if t.lastpar_date is None %} Нет данных {% else %}{{ t.lastpar_date }} {% endif %}</td>
+      <td>{% if t.lastpar_time is None %} Нет данных {% else %}{{ t.lastpar_time }} {% endif %}</td>
+      <td>{% if t.sensor_result_voltage is None%} Нет данных {% else %}{{ t.sensor_result_voltage }}V {% endif %}</td>
+      <td>{% if t.sensor_result_energy is None%} Нет данных {% else %}{{ t.sensor_result_energy }}КлВт/ч {% endif %}</td>
+      <td>{{ t.min_voltage }}V</td>
+      <td>{{ t.max_voltage }}V</td>
+      <td>{{ t.min_energy }}КлВт/ч</td>
+      <td>{{ t.max_energy }}КлВт/ч</td>
+      <td>{% if t.favorite == 1 %} да {% else %} нет {% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+  </div>
+</div>
+  <div style="overflow-x: auto; max-width: 100%;">
+    <div class="btncontainer">
+    <button class="addbtne">Добавить датчик энергопотребления</button>
+    <button class="deletebtne">Удалить выбранные датчики</button>
+    <button class="editbtne">Изменить выбранный датчик</button>
+    <button class="savebtne">Сохранить</button>
+    </div>
+  <div class="addinge">
+  <table class="table_add">
+  <tbody>
+    <tr>
+      <td><select class="device-code-select-energy" name="deviceCode-energy">
+  {% for dev in device %}
+      <option value="{{ dev.device_id }}">{{ dev.device_name }}</option>
+    {% endfor %}
+  </select></td>
+      <td><input type="text" class="add-description-energy" placeholder="Наименование датчика"></td>
+      <td><input type="text" class="add-description-energy" placeholder="ip адрес"></td>
+<td><input type="text" class="add-description-energy" placeholder="Местоположение"></td>
+<td><input type="number" class="add-description-energy" placeholder="Порог мин.показания напряжения"></td>
+<td><input type="number" class="add-description-energy" placeholder="Порог макс.показания напряжения"></td>
+      <td><input type="number" class="add-description-energy" placeholder="Порог мин.показания энергии"></td>
+<td><input type="number" class="add-description-energy" placeholder="Порог макс.показания энергии"></td>
+    </tr>
+  </tbody>
+</table>
+  <button class="saveaddbtne">Добавить</button>
+  </div>
+  </div>
+</div>
+
+<div id="voiceTable">
+<div class="container_search">
+<form method="get" action="{% url 'search_voice' %}">
+  <input type="text" class="search" name="query" placeholder="Поиск по устройству и названию">
+  <button type="submit">Найти</button>
+</form>
+  <a href="{% url 'admin_panel' %}" class="text-buttonnn">Сбросить фильтры</a>
+  </div>
+
+<div style="overflow-y: auto; max-height: 275px;">
+<table class="table_alls">
+  <thead>
+    <tr>
+      <th><input type="checkbox" class="voice-allchecks"></th>
+      <th>Код устройства</th>
+      <th>Название датчика</th>
+      <th>Местоположение</th>
+      <th>ip адрес</th>
+      <th>Дата показания</th>
+      <th>Время показания</th>
+      <th>Показание</th>
+      <th>Порог мин.показания</th>
+      <th>Порог макс.показания</th>
+      <th>Избранное</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for t in voice %}
+    <tr data-id="{{ t.sensor_id }}">
+      <td><input type="checkbox" class="voice-checkbox"></td>
+      <td>{{ t.device }}</td>
+      <td>{{ t.sensor_name }}</td>
+      <td>{{ t.description }}</td>
+      <td>{{ t.ip }}</td>
+      <td>{% if t.lastpar_date is None%} Нет данных {% else %}{{ t.lastpar_date }} {% endif %}</td>
+      <td>{% if t.lastpar_time is None%} Нет данных {% else %}{{ t.lastpar_time }} {% endif %}</td>
+      <td>{% if t.voice_result is None%} Нет данных {% else %}{{ t.voice_result }}Db {% endif %}</td>
+      <td>{{ t.voice_min }}Db</td>
+      <td>{{ t.voice_max }}Db</td>
+      <td>{% if t.favorite == 1 %} да {% else %} нет {% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+  </div>
+  <div class="btncontainer">
+    <button class="addbtnv">Добавить датчик звука</button>
+    <button class="deletebtnv">Удалить выбранные датчики</button>
+    <button class="editbtnv">Изменить выбранный датчик</button>
+    <button class="savebtnv">Сохранить</button>
+    </div>
+  <div class="addingv">
+  <table class="table_add">
+  <tbody>
+    <tr>
+      <td><select class="device-code-select-voice" name="deviceCode-voice">
+  {% for dev in device %}
+      <option value="{{ dev.device_id }}">{{ dev.device_name }}</option>
+    {% endfor %}
+  </select></td>
+      <td><input type="text" class="add-description-voice" placeholder="Наименование датчика"></td>
+       <td><input type="text" class="add-description-voice" placeholder="ip адрес"></td>
+<td><input type="text" class="add-description-voice" placeholder="Местоположение"></td>
+<td><input type="number" class="add-description-voice" placeholder="Порог мин.показания"></td>
+<td><input type="number" class="add-description-voice" placeholder="Порог макс.показания"></td>
+    </tr>
+  </tbody>
+</table>
+  <button class="saveaddbtnv">Добавить</button>
+  </div>
+</div>
+
+
+<div id="lightTable">
+<div class="container_search">
+<form method="get" action="{% url 'search_light' %}">
+  <input type="text" class="search" name="query" placeholder="Поиск по устройству и названию">
+  <button type="submit">Найти</button>
+</form>
+  <a href="{% url 'admin_panel' %}" class="text-buttonnn">Сбросить фильтры</a>
+  </div>
+
+<div style="overflow-y: auto; max-height: 275px;">
+<table class="table_alls">
+  <thead>
+    <tr>
+      <th><input type="checkbox" class="light-allchecks"></th>
+      <th>Код устройства</th>
+      <th>Название датчика</th>
+      <th>Местоположение</th>
+      <th>ip адрес</th>
+      <th>Дата показания</th>
+      <th>Время показания</th>
+      <th>Показание</th>
+      <th>Избранное</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for t in light %}
+    <tr data-id="{{ t.sensor_id }}">
+      <td><input type="checkbox" class="light-checkbox"></td>
+      <td>{{ t.device }}</td>
+      <td>{{ t.sensor_name }}</td>
+      <td>{{ t.description }}</td>
+      <td>{{ t.ip }}</td>
+      <td>{% if t.lastpar_date is None %} Нет данных {% else %}{{ t.lastpar_date }} {% endif %}</td>
+      <td>{% if t.lastpar_time is None %} Нет данных {% else %}{{ t.lastpar_time }} {% endif %}</td>
+      <td>{% if t.light_result == 1 %} Вкл {% else %} Выкл {% endif %}</td>
+      <td>{% if t.favorite == 1 %} да {% else %} нет {% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+  </div>
+  <div class="btncontainer">
+    <button class="addbtnl">Добавить датчик света</button>
+    <button class="deletebtnl">Удалить выбранные датчики</button>
+    <button class="editbtnl">Изменить выбранный датчик</button>
+    <button class="savebtnl">Сохранить</button>
+    </div>
+  <div class="addingl">
+  <table class="table_add">
+  <tbody>
+    <tr>
+      <td><select class="device-code-select-light" name="deviceCode-light">
+  {% for dev in device %}
+      <option value="{{ dev.device_id }}">{{ dev.device_name }}</option>
+    {% endfor %}
+  </select></td>
+      <td><input type="text" class="add-description-light" placeholder="Наименование датчика"></td>
+             <td><input type="text" class="add-description-light" placeholder="ip адрес"></td>
+<td><input type="text" class="add-description-light" placeholder="Местоположение"></td>
+    </tr>
+  </tbody>
+</table>
+  <button class="saveaddbtnl">Добавить</button>
+  </div>
+</div>
+
+
+<div id="notificationsTable">
+<div class="container_search">
+<form method="get" action="{% url 'search_notifications' %}">
+  <input type="text" class="search" name="query" placeholder="Поиск по аккаунту и типу уведомления">
+  <button type="submit">Найти</button>
+</form>
+  <a href="{% url 'admin_panel' %}" class="text-buttonnn">Сбросить фильтры</a>
+  </div>
+
+<div style="overflow-y: auto; max-height: 275px;">
+<table class="table_alls">
+  <thead>
+    <tr>
+      <th><input type="checkbox" class="not-allchecks"></th>
+      <th>Аккаунт</th>
+      <th>Тип уведомления</th>
+      <th>Уведомление</th>
+      <th>Дата уведомление</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for a in notification %}
+    <tr data-id="{{ a.notification_id }}">
+      <td><input type="checkbox" class="not-checkbox"></td>
+      <td>{{ a.user_id }}</td>
+      <td>{{ a.notification_type }}</td>
+      <td>{{ a.notification_description }}</td>
+      <td>{{ a.notification_date }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+  </div>
+  <div class="btncontainer">
+    <button class="deletebtnn">Удалить выбранные уведомления</button>
+    </div>
+</div>
+
+
+<div id="settingsTable">
+<div class="container_search">
+<form method="get" action="{% url 'search_settings' %}">
+  <input type="text" class="search" name="query" placeholder="Поиск по аккаунту">
+  <button type="submit">Найти</button>
+</form>
+  <a href="{% url 'admin_panel' %}" class="text-buttonnn">Сбросить фильтры</a>
+  </div>
+
+<div style="overflow-y: auto; max-height: 275px;">
+<table class="table_alls">
+  <thead>
+    <tr>
+      <th>Аккаунт</th>
+      <th>Активность устройства</th>
+      <th>Интервал получения показаний</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for a in settings %}
+    <tr>
+      <td>{{ a.user }}</td>
+      <td>{% if a.device_start_stop == 1 %}Активно {% else %} Неактивно {% endif %}</td>
+      <td>{% if a.time_sensors == 1 %} 5 секунд {% elif a.time_sensors == 2 %} 10 секунд {% else %} 15 секунд{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+  </div>
+</div>
+
+
+<div id="favoritesTable">
+<div class="container_search">
+<form method="get" action="{% url 'search_favorites' %}">
+  <input type="text" class="search" name="query" placeholder="Поиск по договору">
+  <button type="submit">Найти</button>
+</form>
+  <a href="{% url 'admin_panel' %}" class="text-buttonnn">Сбросить фильтры</a>
+  </div>
+
+<div style="overflow-y: auto; max-height: 275px;">
+<table class="table_alls">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Клиент</th>
+      <th>Логин</th>
+      <th>Договор</th>
+      <th>Адрес</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for a in address %}
+    <tr data-id="{{ a.address_id }}">
+      <td><input type="checkbox" class="address-checkbox"></td>
+      <td>{{ a.id_client }}</td>
+      <td>{{ a.id_client.user_id }}</td>
+      <td>{{ a.code_contract }}</td>
+      <td class=".edit-address">{{ a.address }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+  </div>
+  <div class="btncontainer">
+    <button class="savebtnadr">Сохранить</button>
+    <button class="editaddr">Изменить адрес</button>
+    </div>
+</div>
+
+
+<div id="reportsTable">
+<div class="container_search">
+<form method="get" action="{% url 'search_reports' %}">
+  <input type="text" class="search" name="query" placeholder="Поиск по аккаунту">
+  <button type="submit">Найти</button>
+</form>
+  <a href="{% url 'admin_panel' %}" class="text-buttonnn">Сбросить фильтры</a>
+  </div>
+
+
+<div style="overflow-y: auto; max-height: 275px;">
+<table class="table_alls">
+  <thead>
+    <tr>
+      <th><input type="checkbox" class="report-allchecks"></th>
+      <th>Аккаунт</th>
+      <th>Датчик звука</th>
+      <th>Датчик энергопотребления</th>
+      <th>Датчик температуры</th>
+      <th>Неточное значение</th>
+      <th>Точное значение</th>
+      <th>Дата</th>
+      <th>Время</th>
+      <th>Тип значения</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for a in report %}
+    <tr data-id="{{ a.report_sensors_params_id }}">
+      <td><input type="checkbox" class="report-checkbox"></td>
+      <td>{{ a.user_id }}</td>
+      <td>{% if a.voice is None %} {% else %} {{a.voice}} {% endif %}</td>
+      <td>{% if a.energy is None %} {% else %} {{ a.energy }} {% endif %}</td>
+      <td>{% if a.temp is None %} {% else %} {{ a.temp }} {% endif %}</td>
+      <td>{% if a.float_param is None %}{% else %}{{a.float_param}}КлВт/ч{% endif %}</td>
+      <td>{% if a.voice is None and a.energy is None %}{{a.int_param}}°C {% elif a.temp is None and a.energy is None %} {{a.int_param}}Db {% else %} {{a.int_param}}V {% endif %}</td>
+      <td>{{a.date_param}}</td>
+      <td>{{a.time_param}}</td>
+      <td>{% if a.type_sensor == 'ЗвукUp' or a.type_sensor == 'ЭлектричествоUp' or a.type_sensor == ТемператураUp %} Показание выше макс.порога {% else %} Показание ниже мин.порога {% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+  </div>
+    <div class="btncontainer">
+    <button class="deletebtnr">Удалить выбранные данные</button>
+    </div>
+</div>
+    {% endblock %}
+{% block info %}
+Добро пожаловать, {{username}}.
+<div class="sps">
+<a href="{% url 'home' %}"><li>Открыть сайт</li></a>/<a href="{% url 'logout' %}"><li>Выйти</li></a>
+  </div>
+{% endblock %}
+
+{% block admin_tables %}
+<script src="{% static 'main/js/admin_tables.js' %}"></script>
+{% endblock %}
+{% block deltemp %}
+<script src="{% static 'main/js/del_temp.js' %}"></script>
+{% endblock %}
+{% block delvoice %}
+<script src="{% static 'main/js/del_voice.js' %}"></script>
+{% endblock %}
+{% block delenergy %}
+<script src="{% static 'main/js/del_en.js' %}"></script>
+{% endblock %}
+{% block dellight %}
+<script src="{% static 'main/js/del_light.js' %}"></script>
+{% endblock %}
+{% block edittemp %}
+<script src="{% static 'main/js/edittemp.js' %}"></script>
+{% endblock %}
+{% block editlight %}
+<script src="{% static 'main/js/editlight.js' %}"></script>
+{% endblock %}
+{% block editenergy %}
+<script src="{% static 'main/js/editenergy.js' %}"></script>
+{% endblock %}
+{% block editvoice %}
+<script src="{% static 'main/js/editvoice.js' %}"></script>
+{% endblock %}
+{% block addtemp %}
+<script src="{% static 'main/js/add_temp.js' %}"></script>
+{% endblock %}
+{% block addvoice %}
+<script src="{% static 'main/js/add_voice.js' %}"></script>
+{% endblock %}
+{% block addenergy %}
+<script src="{% static 'main/js/add_energy.js' %}"></script>
+{% endblock %}
+{% block addlight %}
+<script src="{% static 'main/js/add_light.js' %}"></script>
+{% endblock %}
+{% block delnot %}
+<script src="{% static 'main/js/del_notif.js' %}"></script>
+{% endblock %}
+{% block delrep %}
+<script src="{% static 'main/js/del_report.js' %}"></script>
+{% endblock %}
+{% block editcl %}
+<script src="{% static 'main/js/edit_client.js' %}"></script>
+{% endblock %}
+{% block createcontract %}
+<script src="{% static 'main/js/create_contract.js' %}"></script>
+{% endblock %}
+{% block archcontr %}
+<script src="{% static 'main/js/arch_contract.js' %}"></script>
+{% endblock %}
+{% block loadcon %}
+<script src="{% static 'main/js/load_contract.js' %}"></script>
+{% endblock %}
+{% block addr %}
+<script src="{% static 'main/js/adrr.js' %}"></script>
+{% endblock %}
+{% block morecont %}
+<script src="{% static 'main/js/more_contr.js' %}"></script>
+{% endblock %}
+{% block unarch %}
+<script src="{% static 'main/js/unarch.js' %}"></script>
+{% endblock %}
